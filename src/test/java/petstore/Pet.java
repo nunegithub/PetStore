@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.contains;
 
 public class Pet {
 
@@ -36,6 +38,9 @@ public class Pet {
                 .body("name", is("Snoopy"))
                 .body("status", is("available"))
                 .body("id", is(777))
+                .body("tags.id", contains(2021))
+                .body("tags.name",contains("sta"))
+                .body("category.name", is("dog"))
         ;
 
 
