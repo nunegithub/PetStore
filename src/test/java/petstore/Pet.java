@@ -1,13 +1,12 @@
 package petstore;
 
-import io.restassured.RestAssured;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static org.hamcrest.CoreMatchers.containsString;
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.contains;
 
@@ -19,13 +18,12 @@ public class Pet {
         return new String(Files.readAllBytes(Paths.get(caminhoJson)));
 
     }
-    @Test
+    @Test(priority = 1)
     public void incluirPet() throws IOException {
         String jsonBody = lerJson("db/pet1.json");
 
         //Dado Quando Entao
 
-        RestAssured.
         given()
                 .contentType("application/json")
                 .log().all()
@@ -42,8 +40,24 @@ public class Pet {
                 .body("tags.name",contains("sta"))
                 .body("category.name", is("dog"))
         ;
+    }
+   @Test(priority = 2)
+    public void consultarPet(){
+        String petId = "777";
+        given()
+                .contentType("application/json")
+                .log().all()
+        .when()
+                 .get(uri + "/" + petId)
+        .then()
+                .log().all()
+                .statusCode(200)
+                .body("name", is("Snoopy"))
+                .body("tags.id", contains(2021))
+                .body("category.name", is("dog"))
+                .body("category.id", is(1))
 
-
+        ;
 
     }
 }
