@@ -25,6 +25,7 @@ public class Pet {
         //Dado Quando Entao
 
         given()
+
                 .contentType("application/json")
                 .log().all()
                 .body(jsonBody)
